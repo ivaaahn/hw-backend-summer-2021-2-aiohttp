@@ -1,11 +1,8 @@
 import asyncio
 from asyncio import Task
-from pprint import pprint
 from typing import Optional
 
 from app.store import Store
-from app.store.bot.manager import BotManager
-from app.store.vk_api.dataclasses import Update, UpdateObject, UpdateMessage
 
 
 class Poller:
@@ -25,5 +22,3 @@ class Poller:
         while self.is_running:
             updates = await self.store.vk_api.poll()
             await self.store.bots_manager.handle_updates(updates)
-
-

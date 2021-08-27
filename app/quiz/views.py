@@ -1,9 +1,7 @@
 from aiohttp.web_exceptions import HTTPConflict, HTTPNotFound
 from aiohttp_apispec import docs, request_schema, response_schema, querystring_schema
-from marshmallow import pprint
 
 from app.auth.decorators import auth_required
-from app.quiz.models import Answer
 from app.quiz.schemes import (
     ThemeRequestSchema, ThemeListResponseSchema, QuestionRequestSchema, QuestionResponseSchema,
     ThemeResponseSchema, QuestionListResponseSchema, QuestionRequestQuerySchema,

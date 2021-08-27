@@ -59,7 +59,7 @@ async def auth_check_middleware(request: "Request", handler):
             session_id = user_data['id']
         except KeyError:
             pass
-            #TODO check bad cookie
+            # TODO check bad cookie
             # raise HTTPForbidden
 
         db_data = await request.app.store.admins.get_by_email(session_email)

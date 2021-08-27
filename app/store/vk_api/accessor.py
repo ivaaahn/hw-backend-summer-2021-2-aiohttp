@@ -1,4 +1,3 @@
-import asyncio
 import typing
 from pprint import pprint
 from typing import Optional
@@ -7,7 +6,6 @@ import aiohttp
 from aiohttp.client import ClientSession
 
 from app.base.base_accessor import BaseAccessor
-from app.store.bot.manager import BotManager
 from app.store.vk_api.dataclasses import Message, Update, UpdateObject, UpdateMessage
 from app.store.vk_api.poller import Poller
 
@@ -34,7 +32,10 @@ class VkApiAccessor(BaseAccessor):
         if self.session is not None:
             await self.session.close()
             self.session = None
+
+        if self.poller is not None and self.poller.is_running:
             await self.poller.stop()
+            self.poller = None
 
     @staticmethod
     def _build_query(host: str, method: str, params: dict) -> str:
@@ -51,6 +52,7 @@ class VkApiAccessor(BaseAccessor):
         query = self._build_query(
             host='https://api.vk.com/',
             method='method/groups.getLongPollServer',
+
             params={'group_id': group_id, 'access_token': token}
         )
 
@@ -105,4 +107,4 @@ class VkApiAccessor(BaseAccessor):
                     message=UpdateMessage(
                         from_id=u['object']['message']['from_id'],
                         text=u['object']['message']['text'],
-                        id=u['object']['message']['id']))) for u in raw_updates if u['type']]
+                        id=u['object']['message']['id']))) for u in raw_updates if u['type'] == 'message_new']

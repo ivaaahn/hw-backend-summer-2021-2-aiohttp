@@ -11,12 +11,9 @@ class BotManager:
         self.app = app
 
     async def handle_updates(self, updates: list[Update]):
-        print(updates)
         for update in updates:
-            if update.type != 'message_new':
-                continue
-
-            await self.app.store.vk_api.send_message(
-                Message(
-                    user_id=update.object.message.from_id,
-                    text='СОСИИИ'))
+            if update.type == 'message_new':
+                await self.app.store.vk_api.send_message(
+                    Message(
+                        user_id=update.object.message.from_id,
+                        text='___Test message___'))
